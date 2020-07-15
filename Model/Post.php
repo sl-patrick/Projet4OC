@@ -3,6 +3,7 @@
 require('model.php');
 
 class Post extends Database {
+<<<<<<< HEAD
 
     //Méthode pour récupérer les articles.
     public function getPosts() {
@@ -10,16 +11,28 @@ class Post extends Database {
         $db = new Database();
         $connection = $db->getConnection();
         //requête.
+=======
+    //Méthode pour récupérer les articles.
+    public function getPosts() {
+        $db = new Database();
+        $connection = $db->getConnection();
+        //requête
+>>>>>>> Models
         $result = $connection->query('SELECT id,title,contents,creation_date,author FROM blog_posts ORDER BY id DESC');
         return $result;
     }
 
     //Méthode pour récupérer un article par son id.
+<<<<<<< HEAD
     public function getPost($postId) {
+=======
+    public function getPost($idPost) {
+>>>>>>> Models
         $db = new Database();
         $connection = $db->getConnection();
         //requête préparé
         $result = $connection->prepare('SELECT id,title,contents,creation_date,author FROM blog_posts WHERE id=?');
+<<<<<<< HEAD
         $result->execute([$postId]);
         return $result;
     }
@@ -48,4 +61,13 @@ class Post extends Database {
         $result = $connection->prepare('DELETE FROM blog_posts WHERE ');
         $result->execute(array());
     }
+=======
+        $result->execute([$idPost]);
+        return $result;
+    }
+
+    //Méthode pour ajouter un article. 
+    
+    //Méthode pour supprimer un article.
+>>>>>>> Models
 }
