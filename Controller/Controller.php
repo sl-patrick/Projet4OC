@@ -18,6 +18,7 @@ class FrontController {
     }
 
     //Méthode pour afficher la page d'un article.
+<<<<<<< HEAD
     public function post($id) {
         $post = new Post();
         $posts = $post->getPost($id);
@@ -26,4 +27,10 @@ class FrontController {
 
     //Méthode pour afficher les commentaires d'un article.
     public function comments() {}
+=======
+    public function post() {
+        require('./View/postView.php');
+    }
+
+>>>>>>> Controllers
 }
