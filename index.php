@@ -1,35 +1,49 @@
 <!-- ROUTEUR -->
 <?php
 
-require('Controller/Controller.php');
+require 'Controller/FrontController.php';
+require 'Controller/BackController.php';
 
 class Router {
+
+    private $_frontController;
+    private $_backController;
+
+    public function __construct()
+    {
+        $this->_frontController = new FrontController();
+        $this->_backController = new BackController();
+
+    }
 
     public function run() {
         try {
             if (isset($_GET['url'])) {
-                var_dump($_GET['url']);
                 if ($_GET['url'] === 'post') {
-                    if (isset($_GET['postId']) && is_int($_GET['postId'])) {
-                        //Afficher la page post.
-                        $frontController = new FrontController();
-                        $frontController->post($_GET['postId']);
+                    if (isset($_GET['postId']) AND $_GET['postId'] !== '') {
+                        $this->_frontController->articleWithComments($_GET['postId']);
                     } else {
-                        $frontController = new FrontController();
-                        $frontController->chapters();
+                        $this->_frontController->chapters();
                     }
+                } elseif ($_GET['url'] === 'postComment') {
+                    if (isset($_GET['postId'])) {
+                        if (!empty($_POST['author']) AND !empty($_POST['contents'])) {
+                            $this->_frontController->postComment($_GET['postId'], $_POST['contents'], $_POST['author']);
+
+                        } else {
+                            echo 'tout les champs ne sont pas remplis';
+                        }
+                    } else {
+                        echo 'l\'article n\'est pas disponible';
+                    } 
                 } elseif ($_GET['url'] === 'chapter') {
-                    //Afficher la page chapitre.
-                    $frontController = new FrontController();
-                    $frontController->chapters();
+                    $this->_frontController->chapters();
                 } else {
                     //Afficher page d'erreur.
-                    echo'page inconnue';
+                    echo 'page inconnue';
                 }
             } else {
-                //Afficher la page d'accueil.
-                $frontController = new FrontController();
-                $frontController->home();
+                $this->_frontController->home();
             }
         } catch (Exception $error) {
             echo $error->getMessage();

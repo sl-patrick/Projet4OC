@@ -28,10 +28,15 @@ class FrontController {
     }
 
     //Méthode pour afficher la page d'un article.
-    public function post($id) {
+    public function articleWithComments($id) {
         $posts = $this->_post->getPost($id);
         $comments = $this->_comment->getCommentsFromPost($id);
         require './View/postView.php';
+    }
+
+    public function postComment($postId, $contents, $author)
+    {
+        $this->_comment->addCommentFromPost($postId, $contents, $author);
     }
 }
 
