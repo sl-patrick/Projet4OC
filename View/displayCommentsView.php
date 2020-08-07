@@ -2,7 +2,7 @@
 
 <?php
 
-while ($comment = $comments->fetch()) {
+while($comment = $comments->fetch()) {
 
 ?>
     <div>
@@ -11,6 +11,7 @@ while ($comment = $comments->fetch()) {
         <p class="created_at"><?= htmlspecialchars($comment['creation_date']); ?></p>
     </div>
 <?php
+
 }
 
 $comments->closeCursor();
