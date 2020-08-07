@@ -1,7 +1,7 @@
 <h3>Ajouter un commentaire</h3>
 
 <div>
-    <form id="form" action="index.php?url=postComment&amp;postId=<?= htmlspecialchars($_GET['postId']); ?>" method="post">
+    <form id="commentForm" action="index.php?url=postComment&amp;postId=<?= htmlspecialchars($_GET['postId']); ?>" method="post">
         <div class="form-group">
             <label for="author">Pseudo : </label>
             <input type="text" name="author" id="author">
@@ -13,3 +13,4 @@
         <input type="submit" value="Envoyer" class="send">
     </form>
 </div>
+
