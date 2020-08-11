@@ -1,43 +1,48 @@
-<?php $title = 'Mon blog'; ?>
-
-<?php require 'header.php'; ?>
-
 <?php
-$post = $posts->fetch();
+
+$title = 'Mon blog';
+
+require 'header.php';
+require 'menu.php';
+
 ?>
 
-<section>
-    <div class="jumbotron text-center">
-        <div class="container">
-            <h2><?= htmlspecialchars($post['title']); ?></h2>
-            <p>par : <?= htmlspecialchars($post['author']); ?></p>
-            <p>Créé le : <?= htmlspecialchars($post['creation_date']); ?></p>
-        </div>
-    </div>
-</section>
+<?php
 
-<div class="container">
-    <div class="row">
-        <a href="index.php">Retour à l'accueil</a>
-    </div>
-    <!-- contenu article -->
-    <div class="row">
-        <p><?= htmlspecialchars($post['contents']); ?></p>
-    </div>
+while ($post = $posts->fetch()) {
+
+?>
+
+<main>
+    <section>
+        <div class="jumbotron text-center">
+            <div class="container">
+                <h2><?= htmlspecialchars($post['title']); ?></h2>
+                <p>par : <?= htmlspecialchars($post['author']); ?></p>
+                <p>Créé le : <?= htmlspecialchars($post['creation_date']); ?></p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            <a href="index.php">Retour à l'accueil</a>
+        </div>
+        <!-- contenu article -->
+        <div class="row">
+            <p><?= htmlspecialchars($post['contents']); ?></p>
+        </div>
 
     <?php
-    
-    $posts->closeCursor();
-    
+}
+$posts->closeCursor();
+
     ?>
     <!-- Afficher commentaires -->
     <?php require 'displayCommentsView.php'; ?>
     <!-- Ajouter commentaires -->
-    <?php require 'commentsFormView.php'; ?>
+    <?php require 'commentFormView.php'; ?>
+    </div>
+</main>
 
-
-
-
-</div>
-
-<?php require 'footer.php'; ?>
+    <?php require 'footer.php'; ?>
