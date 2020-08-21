@@ -2,7 +2,7 @@
 
 require_once './Model/Post.php';
 require_once './Model/Comment.php';
-require './Model/User.php';
+require_once './Model/User.php';
 
 
 class BackController {
@@ -18,6 +18,9 @@ class BackController {
         $this->_user = new User();
     }
 
+    public function addPostView() {
+        require './View/addPostView.php';
+    }
 
     public function addPost($title, $contents, $author) {
         //Ajouter un article.
@@ -30,23 +33,30 @@ class BackController {
 
     public function deleteComment() {}
 
+    public function dashboard() {
+        require './View/dashboard.php';
+    }
+
     public function connectUser($pseudo, $password) {
-        /*
-        Transmettre les variables à la méthode getUser de la classe User.
-        Si la variable retourne FALSE rester sur la page loginView avec un message d'erreur.
-        Si la variable retourne TRUE afficher la vue administration avec un message de bienvenue.  
-        */ 
-        $getUser = $this->_user->getUser($pseudo, $password);
 
-        if ($getUser === false) {   
-            // loginView
+        $verifyPseudo = htmlspecialchars(strip_tags($pseudo));
+        $verifyPassword = htmlspecialchars(strip_tags($password));
+        // $verifyPassword = htmlspecialchars(strip_tags(password_hash($password, PASSWORD_DEFAULT)));
 
+        $user = $this->_user->getUser($verifyPseudo, $verifyPassword);
+
+        if ($user === false) {
+            require './View/loginView.php';
         } else {
-            
-            // dashboard
+            header('Location:./index.php?url=dashboard');
+            exit;
         }
     }
 
-    public function disconnectedUser() {}
+    public function logout() {
+        session_destroy();
+
+        header('Location:./index.php');
+    }
     
 }
