@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require 'Controller/FrontController.php';
 require 'Controller/BackController.php';
 
@@ -18,39 +20,20 @@ class Router {
     public function run() {
         try {
             if (isset($_GET['url'])) {
-
                 if ($_GET['url'] === 'post') {
-
                     if (isset($_GET['postId']) AND !empty($_GET['postId'])) {
-
                         $this->_frontController->articleWithComments($_GET['postId']);
-                    } else {
-                        
+                    } else { 
                         $this->_frontController->chapters();
                     }
 
-                } elseif ($_GET['url'] === 'addPost') {
-
-                    if (!empty($_POST['title']) AND !empty($_POST['contents']) AND !empty($_POST['author'])) {
-                        
-                        $this->_backController->addPost($_POST['title'], $_POST['contents'], $_POST['author']);
-                    }
-
-                } elseif ($_GET['url'] === 'updatePost') {
-                    
-                    $this->_backController->updatePost();
-
-                } elseif ($_GET['url'] === 'deletePost') {
-                    
-                    $this->_backController->deletePostWithComments();
-
+                } elseif ($_GET['url'] === 'chapter') { 
+                    $this->_frontController->chapters();
+                
                 } elseif ($_GET['url'] === 'postComment') {
-
                     if (isset($_GET['postId']) AND !empty($_GET['postId'])) {
                         if (!empty($_POST['author']) AND !empty($_POST['contents'])) {
-                            
                             $this->_frontController->postComment($_GET['postId'], $_POST['contents'], $_POST['author']);
-                            
                         } else {
                             echo 'tout les champs ne sont pas remplis';
                         }
@@ -72,7 +55,7 @@ class Router {
                     } else {
                         $this->_frontController->login();
                     }
-
+                    
                 } elseif ($_GET['url'] === 'signup') {
                     if (isset($_POST['signup'])) {
                         if (!empty($_POST['newPseudo']) AND !empty($_POST['newPassword']) AND !empty($_POST['confirmPassword'])) {
@@ -85,23 +68,39 @@ class Router {
                             echo 'tout les champs ne sont pas remplis';
                         }
                     } else {
-                        
-                        $this->_frontController->signUp();
-                        
+                        $this->_frontController->signUp(); 
                     }
 
-                } elseif ($_GET['url'] === 'chapter') {
+                } elseif (isset($_SESSION['pseudo'])) {
 
-                    $this->_frontController->chapters();
+                    if ($_GET['url'] === 'dashboard') {
+
+                        if (isset($_GET['action'])) {
+                            
+                            if ($_GET['action'] === 'addPost') {
+                                if (isset($_POST['newPost'])) {
+                                    if (!empty($_POST['title']) AND !empty($_POST['contents']) AND !empty($_POST['author'])) {
+                                        $this->_backController->addPost($_POST['title'], $_POST['contents'], $_POST['author']);
+                                    }   
+                                } else {
+                                    $this->_backController->addPostView();
+                                }
+                            } elseif ($_GET['action'] === 'updatePost') {
+                                $this->_backController->updatePost();  
+                            } elseif ($_GET['action'] === 'deletePost') {
+                                $this->_backController->deletePostWithComments();
+                            }  elseif ($_GET['action'] === 'logout') {
+                                $this->_backController->logout();
+                            }
+
+                        } else {
+                            $this->_backController->dashboard();
+                        }
+                    }
+                } 
                 
-                } else {
-                    //Afficher page d'erreur.
-                    echo 'page inconnue';
-                }
             } else {
-
                 $this->_frontController->home();
-
             }
         } catch (Exception $error) {
             echo $error->getMessage();
