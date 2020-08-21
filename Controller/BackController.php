@@ -43,7 +43,7 @@ class BackController {
         $verifyPassword = htmlspecialchars(strip_tags($password));
         // $verifyPassword = htmlspecialchars(strip_tags(password_hash($password, PASSWORD_DEFAULT)));
 
-        $user = $this->_user->getUser($verifyPseudo, $verifyPassword);
+        $user = $this->_user->checkUser($verifyPseudo, $verifyPassword);
 
         if ($user === false) {
             require './View/loginView.php';
