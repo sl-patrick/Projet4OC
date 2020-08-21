@@ -9,7 +9,7 @@ class User extends Database {
     Si ça ne correspond pas retourner false.
     Si ça correspond ouvrir une session.
     */
-    public function getUser($pseudo, $password) { //changer nom méthode
+    public function checkUser($pseudo, $password) { 
 
         $query = $this->getConnection()->prepare('SELECT username, userpassword FROM users WHERE username = :username');
         $query->execute(array(
@@ -17,15 +17,18 @@ class User extends Database {
         ));
         $result = $query->fetch();
 
-        // $passwordVerify = password_verify($result['password'], $password);
-
         if (!$result['username']) {
             echo 'Le pseudo est invalide';
-        } elseif ($result['userpassword'] !== $password) {
+            return false;
+        } elseif (!password_verify($password, $result['userpassword'])) {
             echo 'mot de passe invalide';
+            return false;
         } else {
-            //ouvrir une session.        
-        } 
+            //ouvrir session
+            $_SESSION['pseudo'] = $result['username'];
+        }
+        $query->closeCursor();
+
     }
 
     public function addUser($pseudo,$password) {
