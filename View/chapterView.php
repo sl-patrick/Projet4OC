@@ -1,4 +1,4 @@
-<?php $title = 'Mon blog'; ?>
+<?php $title = 'Chapitres'; ?>
 
 <?php 
 require 'header.php'; 
