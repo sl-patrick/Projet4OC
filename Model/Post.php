@@ -1,73 +1,49 @@
 <?php
 
-require('model.php');
+require 'model.php';
 
 class Post extends Database {
-<<<<<<< HEAD
-
+    
     //Méthode pour récupérer les articles.
     public function getPosts() {
-        //connexion a la base de données.
-        $db = new Database();
-        $connection = $db->getConnection();
-        //requête.
-=======
-    //Méthode pour récupérer les articles.
-    public function getPosts() {
-        $db = new Database();
-        $connection = $db->getConnection();
-        //requête
->>>>>>> Models
-        $result = $connection->query('SELECT id,title,contents,creation_date,author FROM blog_posts ORDER BY id DESC');
+        $result = $this->getConnection()->query('SELECT id,title,contents,creation_date,author FROM blog_posts ORDER BY id DESC');
         return $result;
     }
 
     //Méthode pour récupérer un article par son id.
-<<<<<<< HEAD
     public function getPost($postId) {
-=======
-    public function getPost($idPost) {
->>>>>>> Models
-        $db = new Database();
-        $connection = $db->getConnection();
-        //requête préparé
-        $result = $connection->prepare('SELECT id,title,contents,creation_date,author FROM blog_posts WHERE id=?');
-<<<<<<< HEAD
-        $result->execute([$postId]);
+        $result = $this->getConnection()->prepare('SELECT id,title,contents,creation_date,author FROM blog_posts WHERE id = :id');
+        $result->execute(array('id' => $postId));
         return $result;
     }
 
     //Méthode pour ajouter un article.
-    public function addPost() {
-        $db = new Database();
-        $connection = $db->getConnection();
-        $result = $connection->prepare('INSERT INTO blog_posts(title,contents,author) VALUES(:title, :contents, :author)');
-        $result->execute(array());
+    public function addPost($title, $contents, $author) {
+        $result = $this->getConnection()->prepare('INSERT INTO blog_posts(title, contents, author, creation_date) VALUES(:title, :contents, :author, NOW())');
+        $result->execute(array(
+            'title' => $title,
+            'contents' => $contents,
+            'author' => $author
+        ));
     }
 
     //Méthode pour modifier un article(id).
     public function updatePost($postId) {
-        $db = new Database();
-        $connection = $db->getConnection();
-        $result = $connection->prepare('UPDATE blog_posts SET ');
-        $result->execute(array());
-
+        $result = $this->getConnection()->prepare('UPDATE blog_posts SET title = :title, contents = :contents, author = :author WHERE id = :id');
+        $result->execute(array(
+            'id' => $_POST[$postId],
+            'title' => $_POST['title'],
+            'contents' => $_POST['contents'],
+            'author' => $_POST['author']
+        ));
+        return $result;
     }
     
     //Méthode pour supprimer un article(id).
     public function deletePost($postId) {
-        $db = new Database();
-        $connection = $db->getConnection();
-        $result = $connection->prepare('DELETE FROM blog_posts WHERE ');
-        $result->execute(array());
+        $result = $this->getConnection()->prepare('DELETE FROM blog_posts WHERE id= :id');
+        $result->execute(array(
+            'id' => $postId
+        ));
     }
-=======
-        $result->execute([$idPost]);
-        return $result;
-    }
-
-    //Méthode pour ajouter un article. 
-    
-    //Méthode pour supprimer un article.
->>>>>>> Models
 }
