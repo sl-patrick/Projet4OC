@@ -35,7 +35,7 @@ class Router {
                         if (!empty($_POST['author']) AND !empty($_POST['contents'])) {
                             $this->_frontController->postComment($_GET['postId'], $_POST['contents'], $_POST['author']);
                         } else {
-                            echo 'tout les champs ne sont pas remplis';
+                            echo 'tous les champs ne sont pas remplis';
                         }
                     } else {
                         echo 'l\'article n\'est pas disponible';
@@ -79,16 +79,24 @@ class Router {
                             
                             if ($_GET['action'] === 'addPost') {
                                 if (isset($_POST['newPost'])) {
-                                    if (!empty($_POST['title']) AND !empty($_POST['contents']) AND !empty($_POST['author'])) {
-                                        $this->_backController->addPost($_POST['title'], $_POST['contents'], $_POST['author']);
+                                    if (!empty($_POST['newTitle']) AND !empty($_POST['newContents']) AND !empty($_POST['authorOfPost'])) {
+                                        $this->_backController->addPost($_POST['newTitle'], $_POST['newContents'], $_POST['authorOfPost']);
                                     }   
                                 } else {
                                     $this->_backController->addPostView();
                                 }
                             } elseif ($_GET['action'] === 'updatePost') {
-                                $this->_backController->updatePost();  
+                                if (isset($_GET['postId']) AND !empty($_GET['postId'])) {
+                                    $this->_backController->updatePost($_GET['postId']); 
+                                }
+
                             } elseif ($_GET['action'] === 'deletePost') {
-                                $this->_backController->deletePostWithComments();
+                                if (isset($_GET['postId']) AND !empty($_GET['postId'])) {
+                                    echo 'passe 1';
+
+                                    $this->_backController->deletePostWithComments($_GET['postId']);
+                                }  
+
                             }  elseif ($_GET['action'] === 'logout') {
                                 $this->_backController->logout();
                             }
