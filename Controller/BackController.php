@@ -24,16 +24,32 @@ class BackController {
 
     public function addPost($title, $contents, $author) {
         //Ajouter un article.
-        $post = $this->_post->addPost($title, $contents, $author);
+        $verifyTitle = htmlspecialchars(strip_tags($title));
+        $verifyContents = htmlspecialchars(strip_tags($contents));
+
+        $post = $this->_post->addPost($verifyTitle, $verifyContents, $author);
+        header('Location:./index.php?url=dashboard');
+
     }
 
-    public function updatePost() {}
+    public function updatePost($postId) {
 
-    public function deletePostWithComments() {}
+        $updateArticle = $this->_post->updatePost($postId);
+        require './View/updatePost.php';
+    }
+
+    public function deletePostWithComments($postId) {
+        echo 'passe 2';
+
+        $deletePost = $this->_post->deletePost($postId);
+        echo 'delete';
+    }
 
     public function deleteComment() {}
 
     public function dashboard() {
+        $articles = $this->_post->getPosts();
+        $recentComments = $this->_comment->getLastComments();
         require './View/dashboard.php';
     }
 
