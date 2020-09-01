@@ -32,17 +32,28 @@ class BackController {
 
     }
 
-    public function updatePost($postId) {
-
-        $updateArticle = $this->_post->updatePost($postId);
+    public function getPost($postId) {
+        $getArticle = $this->_post->getPost($postId);
         require './View/updatePost.php';
     }
 
+    public function updatePost($id, $title, $contents, $author) {
+        
+        $verifyTitle = htmlspecialchars(strip_tags($title));
+        $verifyContents = htmlspecialchars(strip_tags($contents));
+
+        $updateArticle = $this->_post->updatePost($id, $verifyTitle, $verifyContents, $author);
+        header('Location:./index.php?url=dashboard');
+        
+    }
+
     public function deletePostWithComments($postId) {
-        echo 'passe 2';
 
         $deletePost = $this->_post->deletePost($postId);
-        echo 'delete';
+        $deleteComment = $this->_comment->deleteCommentsFromPost($postId);
+        header('Location:./index.php?url=dashboard');
+
+
     }
 
     public function deleteComment() {}
