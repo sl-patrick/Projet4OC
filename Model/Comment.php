@@ -4,17 +4,12 @@ require_once 'model.php';
 
 class Comment extends Database {
     
-    Public function getLastComments() {
-        $result = $this->getConnection()->query('SELECT id,pseudo,contents,creation_date FROM comments ORDER BY creation_date DESC LIMIT 0,5');
-        return $result;
-    }
-
     public function getCommentsFromPost($postId) {
         $result = $this->getConnection()->prepare('SELECT id,pseudo,contents,creation_date FROM comments WHERE id_post=?  ORDER BY creation_date DESC');
         $result->execute([$postId]);
         return $result;
     } 
-
+    
     public function addCommentFromPost($postId, $contents, $author) {
         $pdo = $this->getConnection();
         $result = $pdo->prepare('INSERT INTO comments(pseudo, contents, id_post, creation_date) VALUES(:pseudo, :contents, :id_post, NOW())');
@@ -27,7 +22,20 @@ class Comment extends Database {
         $comment = $pdo->prepare('SELECT id,pseudo,contents,creation_date FROM comments WHERE id= ?');
         $comment->execute([$commentId]);
         return $comment->fetch(PDO::FETCH_ASSOC);
-           
+        
+    }
+
+    Public function getLastComments() {
+        $result = $this->getConnection()->query('SELECT id,pseudo,contents,creation_date FROM comments ORDER BY creation_date DESC LIMIT 0,5');
+        return $result;
+    }
+
+    public function reportComment($commentId) {
+        $result = $this->getConnection()->prepare('INSERT INTO report_comments(id_comment,report_date) VALUES(:id_comment, NOW())');
+        $result->execute(array(
+            'id_comment' => $commentId
+        ));
+        return $result;
     }
 
     public function deleteComment($commentId) {
@@ -44,5 +52,4 @@ class Comment extends Database {
         )); 
     }
 
-    public function reportComment($commentID) {}
 }
