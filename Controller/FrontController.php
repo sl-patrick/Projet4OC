@@ -20,21 +20,18 @@ class FrontController
         $this->_user = new User();
     }
 
-    //Méthode pour afficher la page d'accueil.
     public function home()
     {
         $posts = $this->_post->getPosts();
         require './View/homeView.php';
     }
 
-    //Méthode pour afficher la page des chapitres.
     public function chapters()
     {
         $posts = $this->_post->getPosts();
         require './View/chapterView.php';
     }
 
-    //Méthode pour afficher la page d'un article.
     public function articleWithComments($id)
     {
         $posts = $this->_post->getPost($id);
@@ -44,19 +41,22 @@ class FrontController
 
     public function postComment($postId, $contents, $author)
     {
-        $comments = $this->_comment->addCommentFromPost($postId, $contents, $author);
-        echo json_encode($_POST);
+        $comments = $this->_comment->addCommentFromPost($postId, $contents, $author);        
+        echo json_encode($comments);
+    }
+
+    public function reportComment($commentId) {
+        $report = $this->_comment->reportComment($commentId);
+        require './View/postView.php';
     }
 
     public function login()
     {
-
         require './View/loginView.php';
     }
 
     public function signUp()
     {
-
         require './View/signUpForm.php';
     }
 
