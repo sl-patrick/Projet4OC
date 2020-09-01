@@ -41,6 +41,12 @@ class Router {
                         echo 'l\'article n\'est pas disponible';
                     } 
                     
+                } elseif ($_GET['url'] === 'report') {
+                    if (isset($_GET['idComment']) AND !empty($_GET['idComment'])) {
+                        
+                        $this->_frontController->reportComment($_GET['idComment']);
+                    }
+                    
                 } elseif ($_GET['url'] === 'login') {
                     if (isset($_GET['action']) AND $_GET['action'] === 'connect' AND isset($_POST['submit'])) {
                         if (!empty($_POST['pseudo']) AND !empty($_POST['password'])) {
@@ -86,13 +92,15 @@ class Router {
                                     $this->_backController->addPostView();
                                 }
                             } elseif ($_GET['action'] === 'updatePost') {
+                                if (isset($_POST['update']) AND isset($_GET['postId']) AND !empty($_GET['postId'])) {
+                                    $this->_backController->updatePost($_GET['postId'], $_POST['newTitle'], $_POST['newContents'], $_POST['authorOfPost']);
+                                }
                                 if (isset($_GET['postId']) AND !empty($_GET['postId'])) {
-                                    $this->_backController->updatePost($_GET['postId']); 
+                                    $this->_backController->getPost($_GET['postId']); 
                                 }
 
                             } elseif ($_GET['action'] === 'deletePost') {
                                 if (isset($_GET['postId']) AND !empty($_GET['postId'])) {
-                                    echo 'passe 1';
 
                                     $this->_backController->deletePostWithComments($_GET['postId']);
                                 }  
