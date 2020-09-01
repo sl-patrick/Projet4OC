@@ -38,7 +38,7 @@ class Comment extends Database {
     }
 
     public function deleteCommentsFromPost($postId) {
-        $result = $this->getConnection()->prepare('DELETE FROM comments WHERE id_post = :id_post');
+        $result = $this->getConnection()->prepare('DELETE FROM comments WHERE id_post= :id_post');
         $result->execute(array(
             'id_post' => $postId
         )); 
