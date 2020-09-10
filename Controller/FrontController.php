@@ -41,8 +41,12 @@ class FrontController
 
     public function postComment($postId, $contents, $author)
     {
-        $comments = $this->_comment->addCommentFromPost($postId, $contents, $author);        
-        echo json_encode($comments);
+        $comments = $this->_comment->addCommentFromPost($postId, $contents, $author);
+        ob_start();
+        require './View/instantCommentView.php';
+        $page = ob_get_contents();
+        ob_get_clean();
+        echo json_encode($page);
     }
 
     public function reportComment($commentId) {
