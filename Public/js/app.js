@@ -1,6 +1,6 @@
 document.getElementById("commentForm").addEventListener("submit", function (event) {
 
-	event.preventDefault(); //annuler le comportement par défaut.
+	event.preventDefault();
 
 	let dataForm = new FormData(this);
 
@@ -8,15 +8,16 @@ document.getElementById("commentForm").addEventListener("submit", function (even
 	xhr.onreadystatechange = function () {
 		if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
 			let result = this.response;
-			console.log(result);
+			let allComments = document.querySelector('.allComments');
+			let createDiv = document.createElement('div');
+			createDiv.innerHTML = result;
+			allComments.prepend(createDiv);	
 		}
 	};
-
 	xhr.open("POST", this.action, true);
 	xhr.responseType = "json";
 	xhr.send(dataForm);
 });
-
 
 
 
