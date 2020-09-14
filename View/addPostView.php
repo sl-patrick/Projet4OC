@@ -23,5 +23,6 @@ require 'menu.php';
             <input type="text" name="authorOfPost" id="authorOfPost">
         </div>
         <input type="submit" value="Ajouter" name="newPost">
+        <input type="submit" value="En attente" name="inWaiting">
     </form>
 </div>
