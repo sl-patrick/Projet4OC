@@ -23,13 +23,20 @@ class BackController {
     }
 
     public function addPost($title, $contents, $author) {
-        //Ajouter un article.
         $verifyTitle = htmlspecialchars(strip_tags($title));
         $verifyContents = htmlspecialchars(strip_tags($contents));
 
         $post = $this->_post->addPost($verifyTitle, $verifyContents, $author);
         header('Location:./index.php?url=dashboard');
 
+    }
+
+    public function postWaiting($title, $contents, $author) {
+        $verifyTitle = htmlspecialchars(strip_tags($title));
+        $verifyContents = htmlspecialchars(strip_tags($contents));
+
+        $post = $this->_post->inWaiting($verifyTitle, $verifyContents, $author);
+        header('Location:./index.php?url=dashboard');
     }
 
     public function getPost($postId) {
@@ -61,6 +68,7 @@ class BackController {
     public function dashboard() {
         $articles = $this->_post->getPosts();
         $recentComments = $this->_comment->getLastComments();
+        $recentReportComments = $this->_comment->getLastReportComments();
         require './View/dashboard.php';
     }
 
