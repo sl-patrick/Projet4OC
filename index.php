@@ -88,6 +88,10 @@ class Router {
                                     if (!empty($_POST['newTitle']) AND !empty($_POST['newContents']) AND !empty($_POST['authorOfPost'])) {
                                         $this->_backController->addPost($_POST['newTitle'], $_POST['newContents'], $_POST['authorOfPost']);
                                     }   
+                                } elseif (isset($_POST['inWaiting'])) {
+                                    if (!empty($_POST['newTitle']) AND !empty($_POST['newContents']) AND !empty($_POST['authorOfPost'])) {
+                                        $this->_backController->inWaiting($_POST['newTitle'], $_POST['newContents'], $_POST['authorOfPost']);
+                                    }   
                                 } else {
                                     $this->_backController->addPostView();
                                 }
