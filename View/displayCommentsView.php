@@ -7,7 +7,7 @@
             <p class="content"><?= htmlspecialchars($comment['contents']); ?></p>
             <p class="created_at"><?= htmlspecialchars($comment['creation_date']); ?></p>
             <p class="text-right">
-                <a href="index.php?url=report&amp;idComment=<?= htmlspecialchars($comment['id']); ?>" class="reportComment">signaler</a>
+                <button type="button" class="btn btn-primary" data-url="index.php?url=report&amp;idComment=<?= htmlspecialchars($comment['id']); ?>">Signaler</button>
             </p>
         </div>
 
