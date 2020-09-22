@@ -51,7 +51,7 @@ class FrontController
 
     public function reportComment($commentId) {
         $report = $this->_comment->reportComment($commentId);
-        require './View/postView.php';
+        echo json_encode($report);
     }
 
     public function login()
