@@ -31,13 +31,4 @@ class User extends Database {
 
     }
 
-    public function addUser($pseudo,$password) {
-        //verifier si le pseudo existe déjà.
-        $result = $this->getConnection()->prepare('INSERT INTO users(username, userpassword) VALUES(:username, :userpassword)');
-        $result->execute(array(
-            'username' => $pseudo,
-            'userpassword' => $password
-        ));
-        return $result; 
-    }
 }
