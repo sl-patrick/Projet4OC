@@ -59,26 +59,4 @@ class FrontController
         require './View/loginView.php';
     }
 
-    public function signUp()
-    {
-        require './View/signUpForm.php';
-    }
-
-    public function createUser($pseudo, $password)
-    {
-        $verifyPseudo = htmlspecialchars(strip_tags($pseudo));
-        $verifyPassword = htmlspecialchars(strip_tags(password_hash($password, PASSWORD_DEFAULT)));
-
-        $users = $this->_user->addUser($verifyPseudo, $verifyPassword);
-
-        if (!$users) {
-            header('Location:./index.php?url=signup');
-            exit;
-        } else {
-            header('Location:./index.php?url=login');
-            exit;
-        }
-
-
-    }
 }
