@@ -62,35 +62,47 @@ class Router {
                         $this->_frontController->login();
                     }
                     
-                } elseif ($_GET['url'] === 'signup') {
-                    if (isset($_POST['signup'])) {
-                        if (!empty($_POST['newPseudo']) AND !empty($_POST['newPassword']) AND !empty($_POST['confirmPassword'])) {
-                            if ($_POST['newPassword'] !== $_POST['confirmPassword']) {
-                                echo 'le mot de passe ne correspond pas';
-                            } else {
-                                $this->_frontController->createUser($_POST['newPseudo'],$_POST['newPassword']);
-                            }
-                        } elseif (empty($_POST['newPseudo']) OR empty($_POST['newPassword']) OR empty($_POST['confirmPassword'])) {
-                            echo 'tout les champs ne sont pas remplis';
-                        }
-                    } else {
-                        $this->_frontController->signUp(); 
-                    }
-
                 } elseif (isset($_SESSION['pseudo'])) {
 
                     if ($_GET['url'] === 'dashboard') {
 
                         if (isset($_GET['action'])) {
-                            
-                            if ($_GET['action'] === 'addPost') {
+                            if ($_GET['action'] === 'posts') {
+                                    if ($_GET['url'] === 'postsPublished') {
+                                        if (isset($_GET['page']) AND !empty($_GET['page'])) {
+                                            $currentPage = intval(strip_tags($_GET['page']));
+                                            $this->_backController->postsPublished($currentPage);
+                                        } else {
+                                            $currentPage = 1;
+                                            $this->_backController->postsPublished($currentPage);
+                                        }
+                                        
+                                    } elseif ($_GET['url'] === 'postsInWaiting') {
+                                        if (isset($_GET['page']) AND !empty($_GET['page'])) {
+                                            $currentPage = intval(strip_tags($_GET['page']));
+                                            $this->_backController->postsWaiting($currentPage);
+                                        } else {
+                                            $currentPage = 1;
+                                            $this->_backController->postsWaiting($currentPage);
+                                        }
+                                        
+                                    }
+                                
+                                $this->_backController->dashboard();
+                                
+                            } elseif ($_GET['action'] === 'comments') {
+                               
+
+                                
+                            } elseif ($_GET['action'] === 'addPost') {
+
                                 if (isset($_POST['newPost'])) {
                                     if (!empty($_POST['newTitle']) AND !empty($_POST['newContents']) AND !empty($_POST['authorOfPost'])) {
                                         $this->_backController->addPost($_POST['newTitle'], $_POST['newContents'], $_POST['authorOfPost']);
                                     }   
                                 } elseif (isset($_POST['inWaiting'])) {
                                     if (!empty($_POST['newTitle']) AND !empty($_POST['newContents']) AND !empty($_POST['authorOfPost'])) {
-                                        $this->_backController->inWaiting($_POST['newTitle'], $_POST['newContents'], $_POST['authorOfPost']);
+                                        $this->_backController->postWaiting($_POST['newTitle'], $_POST['newContents'], $_POST['authorOfPost']);
                                     }   
                                 } else {
                                     $this->_backController->addPostView();
@@ -114,6 +126,7 @@ class Router {
                             }
 
                         } else {
+                            echo 'revoir';
                             $this->_backController->dashboard();
                         }
                     }
