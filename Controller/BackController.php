@@ -75,12 +75,12 @@ class BackController
         $firstArticle = ($currentPage * $perPage) - $perPage;
         // $state = 0;    
         if ($state === 0) {
-            $postsPublished = $this->_post->postsPublished($firstArticle, $perPage, $state);
+            $postsPublished = $this->_post->getPostsByState($firstArticle, $perPage, $state);
             var_dump($postsPublished[0]['post_waiting']);
             $totalPage = ceil(intval($postsPublished) / $perPage);
             require './View/postsPublished.php';
         } elseif ($state === 1) {
-            $postsInWaiting = $this->_post->postsPublished($firstArticle, $perPage,$state);
+            $postsInWaiting = $this->_post->getPostsByState($firstArticle, $perPage,$state);
             $totalPageWaiting = ceil(intval($postsInWaiting) / $perPage);
             require './View/postsInWaiting.php';
         }
