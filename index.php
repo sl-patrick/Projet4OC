@@ -66,40 +66,40 @@ class Router
                                 $state = 0;
                                     if (isset($_GET['page']) AND !empty($_GET['page'])) {
                                         $currentPage = intval(strip_tags($_GET['page']));
-                                        $this->_backController->postsPublished($currentPage,$state);
+                                        $this->_backController->allPostsPagination($currentPage,$state);
                                     } else {
                                         $currentPage = 1;
-                                        $this->_backController->postsPublished($currentPage,$state);
+                                        $this->_backController->allPostsPagination($currentPage,$state);
                                     }
                             } elseif ($_GET['action'] === 'inWaiting') {
                                 $state = 1;
                                 if (isset($_GET['page']) AND !empty($_GET['page'])) {
                                     $currentPage = intval(strip_tags($_GET['page']));
-                                    $this->_backController->postsPublished($currentPage,$state);
+                                    $this->_backController->allPostsPagination($currentPage,$state);
                                 } else {
                                     $currentPage = 1;
-                                    $this->_backController->postsPublished($currentPage,$state);
+                                    $this->_backController->allPostsPagination($currentPage,$state);
                                 }
 
                             } elseif ($_GET['action'] === 'comments') {
                                 $state = 0;
                                 if (isset($_GET['page']) AND !empty($_GET['page'])) {
                                     $currentPage = intval(strip_tags($_GET['page']));
-                                    $this->_backController->lastComments($currentPage,$state);
+                                    $this->_backController->allCommentsPagination($currentPage,$state);
                                 } else {
                                     $currentPage = 1;
-                                    $this->_backController->lastComments($currentPage,$state);
+                                    $this->_backController->allCommentsPagination($currentPage,$state);
                                 }
 
                             } elseif ($_GET['action'] === 'reportComments') {
                                 $state = 1;
                                 if (isset($_GET['page']) AND !empty($_GET['page'])) {
                                     $currentPage = intval(strip_tags($_GET['page']));
-                                    $this->_backController->lastComments($currentPage,$state);
+                                    $this->_backController->allCommentsPagination($currentPage,$state);
 
                                 } else {
                                     $currentPage = 1;
-                                    $this->_backController->lastComments($currentPage,$state);
+                                    $this->_backController->allCommentsPagination($currentPage,$state);
                                 }
                                 
                             } elseif ($_GET['action'] === 'addPost') {
