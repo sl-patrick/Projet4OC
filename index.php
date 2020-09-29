@@ -63,30 +63,45 @@ class Router
 
                         if (isset($_GET['action'])) {
                             if ($_GET['action'] === 'posts') {
-                                if (isset($_GET['url']) AND !empty($_GET['url']) OR $_GET['url'] === 'published') {
+                                $state = 0;
                                     if (isset($_GET['page']) AND !empty($_GET['page'])) {
                                         $currentPage = intval(strip_tags($_GET['page']));
-                                        $this->_backController->postsPublished($currentPage);
-    
+                                        $this->_backController->postsPublished($currentPage,$state);
                                     } else {
                                         $currentPage = 1;
-                                        $this->_backController->postsPublished($currentPage);
+                                        $this->_backController->postsPublished($currentPage,$state);
                                     }
-                                } elseif (isset($_GET['url']) AND !empty($_GET['url']) OR $_GET['url'] === 'inWaiting') {
-                                    
-                                    if (isset($_GET['page']) AND !empty($_GET['page'])) {
-                                        $currentPage = intval(strip_tags($_GET['page']));
-                                        $this->_backController->postsWaiting($currentPage);
-                                    } else {
-                                        $currentPage = 1;
-                                        $this->_backController->postsWaiting($currentPage);
-                                    }
+                            } elseif ($_GET['action'] === 'inWaiting') {
+                                $state = 1;
+                                if (isset($_GET['page']) AND !empty($_GET['page'])) {
+                                    $currentPage = intval(strip_tags($_GET['page']));
+                                    $this->_backController->postsPublished($currentPage,$state);
+                                } else {
+                                    $currentPage = 1;
+                                    $this->_backController->postsPublished($currentPage,$state);
                                 }
 
-                                        
-                                    
                             } elseif ($_GET['action'] === 'comments') {
-                                //code...
+                                $state = 0;
+                                if (isset($_GET['page']) AND !empty($_GET['page'])) {
+                                    $currentPage = intval(strip_tags($_GET['page']));
+                                    $this->_backController->lastComments($currentPage,$state);
+                                } else {
+                                    $currentPage = 1;
+                                    $this->_backController->lastComments($currentPage,$state);
+                                }
+
+                            } elseif ($_GET['action'] === 'reportComments') {
+                                $state = 1;
+                                if (isset($_GET['page']) AND !empty($_GET['page'])) {
+                                    $currentPage = intval(strip_tags($_GET['page']));
+                                    $this->_backController->lastComments($currentPage,$state);
+
+                                } else {
+                                    $currentPage = 1;
+                                    $this->_backController->lastComments($currentPage,$state);
+                                }
+                                
                             } elseif ($_GET['action'] === 'addPost') {
 
                                 if (isset($_POST['newPost'])) {
@@ -116,7 +131,8 @@ class Router
                                 $this->_backController->logout();
                             }
                         } else {
-                            $this->_backController->dashboard();
+
+                            echo 'erreur';
                         }
                     }
                 }
