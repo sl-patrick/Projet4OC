@@ -5,7 +5,8 @@ require_once './Model/Comment.php';
 require_once './Model/User.php';
 
 
-class BackController {
+class BackController
+{
 
     private $_post;
     private $_comment;
@@ -18,20 +19,22 @@ class BackController {
         $this->_user = new User();
     }
 
-    public function addPostView() {
+    public function addPostView()
+    {
         require './View/addPostView.php';
     }
 
-    public function addPost($title, $contents, $author) {
+    public function addPost($title, $contents, $author)
+    {
         $verifyTitle = htmlspecialchars(strip_tags($title));
         $verifyContents = htmlspecialchars(strip_tags($contents));
 
         $post = $this->_post->addPost($verifyTitle, $verifyContents, $author);
         header('Location:./index.php?url=dashboard');
-
     }
 
-    public function postWaiting($title, $contents, $author) {
+    public function postWaiting($title, $contents, $author)
+    {
         $verifyTitle = htmlspecialchars(strip_tags($title));
         $verifyContents = htmlspecialchars(strip_tags($contents));
 
@@ -39,40 +42,69 @@ class BackController {
         header('Location:./index.php?url=dashboard');
     }
 
-    public function getPost($postId) {
+    public function getPost($postId)
+    {
         $getArticle = $this->_post->getPost($postId);
         require './View/updatePost.php';
     }
 
-    public function updatePost($id, $title, $contents, $author) {
-        
+    public function updatePost($id, $title, $contents, $author)
+    {
+
         $verifyTitle = htmlspecialchars(strip_tags($title));
         $verifyContents = htmlspecialchars(strip_tags($contents));
 
         $updateArticle = $this->_post->updatePost($id, $verifyTitle, $verifyContents, $author);
         header('Location:./index.php?url=dashboard');
-        
     }
 
-    public function deletePostWithComments($postId) {
+    public function deletePostWithComments($postId)
+    {
 
         $deletePost = $this->_post->deletePost($postId);
         $deleteComment = $this->_comment->deleteCommentsFromPost($postId);
         header('Location:./index.php?url=dashboard');
-
-
     }
 
-    public function deleteComment() {}
+    public function deleteComment()
+    {}
 
-    public function dashboard() {
-        $articles = $this->_post->getPosts();
-        $recentComments = $this->_comment->getLastComments();
-        $recentReportComments = $this->_comment->getLastReportComments();
-        require './View/dashboard.php';
+    public function allPostsPagination($currentPage,$state)
+    {    
+        $perPage = 1;
+        $firstArticle = ($currentPage * $perPage) - $perPage;
+        // $state = 0;    
+        if ($state === 0) {
+            $postsPublished = $this->_post->postsPublished($firstArticle, $perPage, $state);
+            var_dump($postsPublished[0]['post_waiting']);
+            $totalPage = ceil(intval($postsPublished) / $perPage);
+            require './View/postsPublished.php';
+        } elseif ($state === 1) {
+            $postsInWaiting = $this->_post->postsPublished($firstArticle, $perPage,$state);
+            $totalPageWaiting = ceil(intval($postsInWaiting) / $perPage);
+            require './View/postsInWaiting.php';
+        }
     }
 
-    public function connectUser($pseudo, $password) {
+    public function allCommentsPagination($currentPage,$state)
+    {
+        $perPage = 1;
+        $firstComment = ($currentPage * $perPage) - $perPage;
+        
+        if ($state === 0) {
+            $lastComments = $this->_comment->commentsPublished($firstComment, $perPage, $state);
+            $totalPage = ceil(intval($lastComments) / $perPage);
+            require './View/comments.php';
+        } elseif ($state === 1) {
+            $lastReportComments = $this->_comment->commentsPublished($firstComment, $perPage, $state);
+            $totalPage = ceil(intval($lastReportComments) / $perPage);
+            require './View/reportComments.php';
+        }
+
+    }
+   
+    public function connectUser($pseudo, $password)
+    {
 
         $verifyPseudo = htmlspecialchars(strip_tags($pseudo));
         $verifyPassword = htmlspecialchars(strip_tags($password));
@@ -83,15 +115,16 @@ class BackController {
         if ($user === false) {
             require './View/loginView.php';
         } else {
-            header('Location:./index.php?url=dashboard');
+        header('Location:./index.php');
+
             exit;
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         session_destroy();
 
         header('Location:./index.php');
     }
-    
 }
