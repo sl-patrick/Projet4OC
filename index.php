@@ -127,6 +127,10 @@ class Router
 
                                     $this->_backController->deletePostWithComments($_GET['postId']);
                                 }
+                            } elseif ($_GET['action'] === 'deleteComment') {
+                                if (isset($_GET['commentId']) and !empty($_GET['commentId'])) {
+                                    $this->_backController->deleteComment($_GET['commentId']);
+                                }
                             } elseif ($_GET['action'] === 'logout') {
                                 $this->_backController->logout();
                             }
