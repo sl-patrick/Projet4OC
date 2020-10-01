@@ -30,7 +30,7 @@ class BackController
         $verifyContents = htmlspecialchars(strip_tags($contents));
 
         $post = $this->_post->addPost($verifyTitle, $verifyContents, $author);
-        header('Location:./index.php?url=dashboard');
+        header('Location:./index.php?url=dashboard&action=posts');
     }
 
     public function postWaiting($title, $contents, $author)
@@ -55,7 +55,7 @@ class BackController
         $verifyContents = htmlspecialchars(strip_tags($contents));
 
         $updateArticle = $this->_post->updatePost($id, $verifyTitle, $verifyContents, $author);
-        header('Location:./index.php?url=dashboard');
+        header('Location:./index.php?url=dashboard&action=posts');
     }
 
     public function deletePostWithComments($postId)
@@ -66,22 +66,25 @@ class BackController
         header('Location:./index.php?url=dashboard');
     }
 
-    public function deleteComment()
-    {}
+    public function deleteComment($commentId)
+    {
+        $deleteComment = $this->_comment->deleteComment($commentId);
+
+    }
 
     public function allPostsPagination($currentPage,$state)
     {    
-        $perPage = 1;
+        $countPosts = $this->_post->countPosts($state);
+        $perPage = 5;
         $firstArticle = ($currentPage * $perPage) - $perPage;
-        // $state = 0;    
         if ($state === 0) {
             $postsPublished = $this->_post->getPostsByState($firstArticle, $perPage, $state);
-            var_dump($postsPublished[0]['post_waiting']);
-            $totalPage = ceil(intval($postsPublished) / $perPage);
+            $totalPage = ceil(intval($countPosts) / $perPage);
+            var_dump($totalPage);
             require './View/postsPublished.php';
         } elseif ($state === 1) {
             $postsInWaiting = $this->_post->getPostsByState($firstArticle, $perPage,$state);
-            $totalPageWaiting = ceil(intval($postsInWaiting) / $perPage);
+            $totalPageWaiting = ceil(intval($countPosts) / $perPage);
             require './View/postsInWaiting.php';
         }
     }
