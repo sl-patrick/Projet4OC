@@ -69,6 +69,7 @@ class BackController
     public function deleteComment($commentId)
     {
         $deleteComment = $this->_comment->deleteComment($commentId);
+        header('Location:./index.php?url=dashboard&action=posts');
 
     }
 
@@ -80,11 +81,10 @@ class BackController
         if ($state === 0) {
             $postsPublished = $this->_post->getPostsByState($firstArticle, $perPage, $state);
             $totalPage = ceil(intval($countPosts) / $perPage);
-            var_dump($totalPage);
             require './View/postsPublished.php';
         } elseif ($state === 1) {
             $postsInWaiting = $this->_post->getPostsByState($firstArticle, $perPage,$state);
-            $totalPageWaiting = ceil(intval($countPosts) / $perPage);
+            $totalPage = ceil(intval($countPosts) / $perPage);
             require './View/postsInWaiting.php';
         }
     }
