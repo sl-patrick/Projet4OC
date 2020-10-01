@@ -10,10 +10,11 @@ class Post extends Database {
         return $result;
     }
 
-    public function countAllPosts() {
+    public function countPosts($state) {
         $pdo = $this->getConnection();
         //Nombre d'articles en attentes
-        $allArticles = $pdo->query('SELECT COUNT(*) FROM blog_posts');
+        $allArticles = $pdo->prepare('SELECT COUNT(*) FROM blog_posts WHERE post_waiting = ?');
+        $allArticles->execute([$state]);
         $allArticles = $allArticles->fetch();
         return $allArticles;
     }
