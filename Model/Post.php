@@ -3,8 +3,12 @@
 require 'model.php';
 
 class Post extends Database {
+
+    public function getThreeLastPosts() {
+        $result = $this->getConnection()->query('SELECT id,title,contents,creation_date,author,post_waiting FROM blog_posts WHERE post_waiting = 0 ORDER BY id DESC LIMIT 0, 3');
+        return $result;
+    }
     
-    //Méthode pour récupérer les articles.
     public function getPosts() {
         $result = $this->getConnection()->query('SELECT id,title,contents,creation_date,author,post_waiting FROM blog_posts WHERE post_waiting = 0 ORDER BY id DESC');
         return $result;
@@ -12,36 +16,30 @@ class Post extends Database {
 
     public function countPosts($state) {
         $pdo = $this->getConnection();
-        //Nombre d'articles en attentes
-        $allArticles = $pdo->prepare('SELECT COUNT(*) FROM blog_posts WHERE post_waiting = ?');
+        $allArticles = $pdo->prepare('SELECT COUNT(*) AS numberOfPosts FROM blog_posts WHERE post_waiting = ?');
         $allArticles->execute([$state]);
-        $allArticles = $allArticles->fetch();
-        return $allArticles;
+        $result = $allArticles->fetch();
+        $numbers = intval($result['numberOfPosts']);
+        return $numbers;
     }
 
     public function getPostsByState($firstArticle, $perPage, $state) {
         $pdo = $this->getConnection();
-        if ($state === 0) {
-            $limitArticles = $pdo->prepare('SELECT * FROM blog_posts WHERE post_waiting = :states ORDER BY creation_date DESC LIMIT :firstArticle, :perPage');
-        } elseif($state === 1) {
-            $limitArticles = $pdo->prepare('SELECT * FROM blog_posts WHERE post_waiting = :states ORDER BY creation_date DESC LIMIT :firstArticle, :perPage');
-        }    
-        $limitArticles->bindValue(':firstArticle', $firstArticle, PDO::PARAM_INT);
-        $limitArticles->bindValue(':perPage', $perPage, PDO::PARAM_INT);
-        $limitArticles->bindValue(':states', $state, PDO::PARAM_INT);
-        $limitArticles->execute();
-        $articles = $limitArticles->fetchAll(PDO::FETCH_ASSOC);
-        return $articles;
+        $posts = $pdo->prepare('SELECT * FROM blog_posts WHERE post_waiting = :states ORDER BY creation_date DESC LIMIT :firstArticle, :perPage');          
+        $posts->bindValue(':firstArticle', $firstArticle, PDO::PARAM_INT);
+        $posts->bindValue(':perPage', $perPage, PDO::PARAM_INT);
+        $posts->bindValue(':states', $state, PDO::PARAM_INT);
+        $posts->execute();
+        $result = $posts->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
-    //Méthode pour récupérer un article par son id.
     public function getPost($postId) {
         $result = $this->getConnection()->prepare('SELECT id,title,contents,creation_date,author FROM blog_posts WHERE id = :id');
         $result->execute(array('id' => $postId));
         return $result;
     }
 
-    //Méthode pour ajouter un article.
     public function addPost($title, $contents, $author) {
         $result = $this->getConnection()->prepare('INSERT INTO blog_posts(title, contents, author, creation_date, post_waiting) VALUES(:title, :contents, :author, NOW(), :post_waiting)');
         $result->execute(array(
@@ -62,7 +60,6 @@ class Post extends Database {
         ));
     }
 
-    //Méthode pour modifier un article(id).
     public function updatePost($id,$title,$contents,$author) {
         $result = $this->getConnection()->prepare('UPDATE blog_posts SET title = :title, contents = :contents, author = :author WHERE id = :id');
         $result->execute(array(
@@ -74,7 +71,6 @@ class Post extends Database {
         return $result;
     }
     
-    //Méthode pour supprimer un article(id).
     public function deletePost($postId) {
         $result = $this->getConnection()->prepare('DELETE FROM blog_posts WHERE id= :id');
         $result->execute(array(
