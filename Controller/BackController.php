@@ -78,29 +78,25 @@ class BackController
         $countPosts = $this->_post->countPosts($state);
         $perPage = 5;
         $firstArticle = ($currentPage * $perPage) - $perPage;
+        $posts = $this->_post->getPostsByState($firstArticle, $perPage,$state);
+        $totalPage = ceil(intval($countPosts) / $perPage);
         if ($state === 0) {
-            $postsPublished = $this->_post->getPostsByState($firstArticle, $perPage, $state);
-            $totalPage = ceil(intval($countPosts) / $perPage);
             require './View/postsPublished.php';
         } elseif ($state === 1) {
-            $postsInWaiting = $this->_post->getPostsByState($firstArticle, $perPage,$state);
-            $totalPage = ceil(intval($countPosts) / $perPage);
             require './View/postsInWaiting.php';
         }
     }
 
     public function allCommentsPagination($currentPage,$state)
     {
-        $perPage = 1;
+        $countComments = $this->_comment->countAllComments($state);
+        $perPage = 5;
         $firstComment = ($currentPage * $perPage) - $perPage;
-        
+        $comments = $this->_comment->getCommentsByState($firstComment, $perPage, $state);
+        $totalPage = ceil(intval($countComments) / $perPage);
         if ($state === 0) {
-            $lastComments = $this->_comment->commentsPublished($firstComment, $perPage, $state);
-            $totalPage = ceil(intval($lastComments) / $perPage);
             require './View/comments.php';
         } elseif ($state === 1) {
-            $lastReportComments = $this->_comment->commentsPublished($firstComment, $perPage, $state);
-            $totalPage = ceil(intval($lastReportComments) / $perPage);
             require './View/reportComments.php';
         }
 
