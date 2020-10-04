@@ -22,13 +22,18 @@ class FrontController
 
     public function home()
     {
-        $posts = $this->_post->getPosts();
+        $posts = $this->_post->getThreeLastPosts();
+        
         require './View/homeView.php';
     }
 
-    public function chapters()
+    public function chapters($currentPage, $state)
     {
-        $posts = $this->_post->getPosts();
+        $countPosts = $this->_post->countPosts($state);
+        $perPage = 5;
+        $firstPost = ($currentPage * $perPage) - $perPage;
+        $posts = $this->_post->getPostsByState($firstPost, $perPage, $state);
+        $totalPage = ceil(intval($countPosts) / $perPage);
         require './View/chapterView.php';
     }
 
