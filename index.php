@@ -25,10 +25,18 @@ class Router
                     if (isset($_GET['postId']) and !empty($_GET['postId'])) {
                         $this->_frontController->articleWithComments($_GET['postId']);
                     } else {
-                        $this->_frontController->chapters();
+                        header('Location:./index.php?url=chapter');
                     }
                 } elseif ($_GET['url'] === 'chapter') {
-                    $this->_frontController->chapters();
+                    $state = 0;
+                    if (isset($_GET['page']) AND !empty($_GET['page'])) {
+                        $currentPage = intval(strip_tags($_GET['page']));
+                        $this->_frontController->chapters($currentPage, $state);
+
+                    } else {
+                        $currentPage = 1;
+                        $this->_frontController->chapters($currentPage, $state);
+                    }
                 } elseif ($_GET['url'] === 'postComment') {
                     if (isset($_GET['postId']) and !empty($_GET['postId'])) {
                         if (!empty($_POST['author']) and !empty($_POST['contents'])) {
