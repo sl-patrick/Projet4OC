@@ -8,27 +8,34 @@ require 'menu.php';
 
 ?>
 
+<section id="hero">
+    <div class="jumbotron jumbotron-fluid text-center">
+        <div class="container"></div>
+    </div>
+</section>
 <main class="min-vh-100">
-    <section id="hero">
-        <div class="jumbotron text-center">
-            <div class="container"></div>
-        </div>
-    </section>
 
     <div class="container">
-        <div class="row">
+        <div class="row d-flex justify-content-center">
             <?php
             while ($post = $posts->fetch()) {
             ?>
-                <div class="card">
+                <div class="card text-center col-lg-5 m-3 p-0">
+                    <div class="card-header"></div>
                     <div class="card-body">
-                        <h3 class="card-title">
-                            <a href="index.php?url=post&amp;postId=<?= htmlspecialchars($post['id']); ?>">
+                        <h2 class="card-title text-uppercase">
+                            <a class="card-link" href="index.php?url=post&amp;postId=<?= htmlspecialchars($post['id']); ?>">
                             <?= htmlspecialchars($post['title']); ?>
                             </a>
-                        </h3>
-                        <p class="card-text"><?= htmlspecialchars($post['contents']); ?></p>
-                        <p><?= htmlspecialchars($post['author']); ?></p>
+                        </h2>
+                        <p class="card-text"><?= mb_strimwidth(htmlspecialchars($post['contents']), 0, 200, '...'); ?>
+                        <span>
+                            <a class="card-link" href="index.php?url=post&amp;postId=<?= htmlspecialchars($post['id']); ?>">Lire la suite</a>
+                        </span> 
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <p>Par : <?= htmlspecialchars($post['author']); ?></p>
                         <p>Créé le : <?= htmlspecialchars($post['creation_date']); ?></p>
                     </div>
                 </div>
