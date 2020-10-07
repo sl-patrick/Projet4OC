@@ -80,7 +80,9 @@ class BackController
         $firstArticle = ($currentPage * $perPage) - $perPage;
         $posts = $this->_post->getPostsByState($firstArticle, $perPage,$state);
         $totalPage = ceil(intval($countPosts) / $perPage);
-        if ($state === 0) {
+        if ($currentPage > $totalPage) {
+            header('Location:./index.php');
+        } elseif ($state === 0) {
             require './View/postsPublished.php';
         } elseif ($state === 1) {
             require './View/postsInWaiting.php';
@@ -89,13 +91,16 @@ class BackController
 
     public function allCommentsPagination($currentPage,$state)
     {
+
         $countComments = $this->_comment->countAllComments($state);
         $perPage = 5;
         $firstComment = ($currentPage * $perPage) - $perPage;
         $comments = $this->_comment->getCommentsByState($firstComment, $perPage, $state);
         $totalPage = ceil(intval($countComments) / $perPage);
-        if ($state === 0) {
-            require './View/comments.php';
+        if ($currentPage > $totalPage) {
+            header('Location:./index.php');
+        } elseif ($state === 0) {
+            require './View/comments.php'; 
         } elseif ($state === 1) {
             require './View/reportComments.php';
         }
@@ -104,7 +109,6 @@ class BackController
    
     public function connectUser($pseudo, $password)
     {
-
         $verifyPseudo = htmlspecialchars(strip_tags($pseudo));
         $verifyPassword = htmlspecialchars(strip_tags($password));
         // $verifyPassword = htmlspecialchars(strip_tags(password_hash($password, PASSWORD_DEFAULT)));
@@ -115,8 +119,7 @@ class BackController
             require './View/loginView.php';
         } else {
         header('Location:./index.php');
-
-            exit;
+        exit;
         }
     }
 
