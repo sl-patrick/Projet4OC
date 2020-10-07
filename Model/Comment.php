@@ -25,11 +25,6 @@ class Comment extends Database {
         return $comment->fetch(PDO::FETCH_ASSOC);   
     }
 
-    Public function getLastComments() {
-        $result = $this->getConnection()->query('SELECT id,pseudo,contents,creation_date FROM comments ORDER BY creation_date DESC LIMIT 0,5');
-        return $result;
-    }
-
     public function reportComment($commentId) {
         $pdo = $this->getConnection();
         $verify = $pdo->prepare('SELECT report_comment FROM comments WHERE id= ?');
@@ -46,9 +41,24 @@ class Comment extends Database {
             return intval($verify['report_comment']);
         }
     }
+    
+    public function countAllComments($state) {
+        $pdo = $this->getConnection();
+        $allComments = $pdo->prepare('SELECT COUNT(*) AS numberOfComments FROM comments WHERE report_comment = ?');
+        $allComments->execute([$state]);
+        $result = $allComments->fetch();
+        $numberOfComments = intval($result['numberOfComments']);
+        return $numberOfComments;
+    }
 
-    public function getLastReportComments() {
-        $result = $this->getConnection()->query('SELECT pseudo,contents,creation_date FROM comments WHERE report_comment = 1');
+    public function getCommentsByState($firstComment, $perPage, $state) {
+        $pdo = $this->getConnection();
+        $comments = $pdo->prepare('SELECT * FROM comments WHERE report_comment = :states ORDER BY creation_date DESC LIMIT :firstComment, :perPage');
+        $comments->bindValue(':firstComment', $firstComment, PDO::PARAM_INT);
+        $comments->bindValue(':perPage', $perPage, PDO::PARAM_INT);
+        $comments->bindValue(':states', $state, PDO::PARAM_INT);
+        $comments->execute();
+        $result = $comments->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
