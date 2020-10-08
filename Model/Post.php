@@ -6,6 +6,7 @@ class Post extends Database {
 
     public function getThreeLastPosts() {
         $result = $this->getConnection()->query('SELECT id,title,contents,creation_date,author,post_waiting FROM blog_posts WHERE post_waiting = 0 ORDER BY id DESC LIMIT 0, 3');
+        $result = $result->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
     
@@ -69,6 +70,17 @@ class Post extends Database {
             'author' => $author
         ));
         return $result;
+    }
+
+    public function putInLine($id,$title,$contents,$author) {
+        $postPutInLine = $this->getConnection()->prepare('UPDATE blog_posts SET title = :title, contents = :contents, author = :author, creation_date = NOW(), post_waiting = :post_waiting WHERE id = :id');
+        $postPutInLine->execute(array(
+            'id' => $id,
+            'title' => $title,
+            'contents' => $contents,
+            'author' => $author,
+            'post_waiting' => 0,
+        ));
     }
     
     public function deletePost($postId) {
