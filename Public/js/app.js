@@ -1,8 +1,8 @@
 document.getElementById("commentForm").addEventListener("submit", function (event) {
-
 	event.preventDefault();
-
 	let dataForm = new FormData(this);
+	document.getElementById("author").value = null;
+	document.getElementById("contents").value = null;
 
 	const xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function () {
