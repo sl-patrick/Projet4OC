@@ -9,16 +9,22 @@ require 'menu.php';
 ?>
 
 <section id="hero">
-    <div class="jumbotron jumbotron-fluid text-center">
-        <div class="container"></div>
+    <div class="jumbotron jumbotron-fluid background text-center">
+        <div class="container">
+            <h1>Jean Forteroche</h1>
+            <p class="lead">Acteur - Écrivain</p>
+            <hr class="my-3">
+            <p>Découvrez mon tout nouveau roman intitulé Billet simple pour l'Alaska</p>
+        </div>
     </div>
 </section>
+
 <main class="min-vh-100">
 
     <div class="container">
         <div class="row d-flex justify-content-center">
             <?php
-            while ($post = $posts->fetch()) {
+            foreach ($posts as $post) {
             ?>
                 <div class="card text-center col-lg-5 m-3 p-0">
                     <div class="card-header"></div>
@@ -41,7 +47,6 @@ require 'menu.php';
                 </div>
             <?php
             }
-            $posts->closeCursor();
             ?>
         </div>
     </div>
