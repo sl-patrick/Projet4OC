@@ -7,8 +7,12 @@ require 'menu.php';
 
 <main class="min-vh-100">
     <section>
-        <div class="jumbotron">
-            <div class="container"></div>
+        <div class="jumbotron jumbotron-fluid background text-center">
+            <div class="container">
+                <h1>Les chapitres</h1>
+                <hr class="my-3">
+
+            </div>
         </div>
     </section>
 
