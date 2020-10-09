@@ -23,7 +23,6 @@ class FrontController
     public function home()
     {
         $posts = $this->_post->getThreeLastPosts();
-        
         require './View/homeView.php';
     }
 
@@ -41,7 +40,13 @@ class FrontController
     {
         $posts = $this->_post->getPost($id);
         $comments = $this->_comment->getCommentsFromPost($id);
-        require './View/postView.php';
+        if ($posts[0]['id'] === null) {
+            header('Location:./index.php');
+        } else {
+            require './View/postView.php';
+            
+        }
+        
     }
 
     public function postComment($postId, $contents, $author)
