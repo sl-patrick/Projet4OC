@@ -26,7 +26,7 @@ class Post extends Database {
 
     public function getPostsByState($firstArticle, $perPage, $state) {
         $pdo = $this->getConnection();
-        $posts = $pdo->prepare('SELECT * FROM blog_posts WHERE post_waiting = :states ORDER BY creation_date DESC LIMIT :firstArticle, :perPage');          
+        $posts = $pdo->prepare('SELECT * FROM blog_posts WHERE post_waiting = :states ORDER BY creation_date LIMIT :firstArticle, :perPage');          
         $posts->bindValue(':firstArticle', $firstArticle, PDO::PARAM_INT);
         $posts->bindValue(':perPage', $perPage, PDO::PARAM_INT);
         $posts->bindValue(':states', $state, PDO::PARAM_INT);
@@ -36,8 +36,10 @@ class Post extends Database {
     }
 
     public function getPost($postId) {
-        $result = $this->getConnection()->prepare('SELECT id,title,contents,creation_date,author FROM blog_posts WHERE id = :id');
-        $result->execute(array('id' => $postId));
+        $pdoConnexion = $this->getConnection();
+        $query = $pdoConnexion->prepare('SELECT id,title,contents,creation_date,author FROM blog_posts WHERE id = :id');
+        $query->execute(array('id' => $postId));
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
