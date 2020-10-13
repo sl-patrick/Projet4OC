@@ -1,17 +1,18 @@
-
-function report(url) {
-	// console.log(url);
-
-	// let url = this.dataset.url;
-
+function report(url, id) {
 	const xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function () {
 		if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-			if (this.response === null) {
-				console.log('impossible de signaler le commentaire.');
-			} else {
-				console.log(this.response);
+			if (this.response === 0) {
+				console.log(id);
+				document.getElementById(id).classList.remove("bg-danger");
 				
+				console.log('commentaire non signaler');
+			} else if (this.response === 1) {
+				console.log('commentaire signaler');
+				document.getElementById(id).classList.add("bg-danger");
+
+			} else {
+				console.log('un problème est survenu');
 			}
 		}
 	};
