@@ -26,10 +26,20 @@ class BackController
 
     public function addPost($title, $contents, $author)
     {
+        var_dump($title);
+        var_dump($contents);
+        var_dump($author);
+
+
         $verifyTitle = htmlspecialchars(strip_tags($title));
         $verifyContents = htmlspecialchars(strip_tags($contents));
+        var_dump($verifyTitle);
+        var_dump($verifyContents);
+
+
 
         $post = $this->_post->addPost($verifyTitle, $verifyContents, $author);
+        var_dump($post);
         header('Location:./index.php?url=dashboard&action=posts');
     }
 
@@ -50,12 +60,18 @@ class BackController
 
     public function updatePost($id, $title, $contents, $author)
     {
-
         $verifyTitle = htmlspecialchars(strip_tags($title));
         $verifyContents = htmlspecialchars(strip_tags($contents));
 
         $updateArticle = $this->_post->updatePost($id, $verifyTitle, $verifyContents, $author);
-        header('Location:./index.php?url=dashboard&action=posts');
+        header('Location:./index.php?url=dashboard&action=inWaiting');
+    }
+
+    public function putInLine($id, $title, $contents, $author) {
+        $verifyTitle = htmlspecialchars(strip_tags($title));
+        $verifyContents = htmlspecialchars(strip_tags($contents));
+        $postPutInLine = $this->_post->putInLine($id, $verifyTitle, $verifyContents, $author);
+        header('Location:./index.php');
     }
 
     public function deletePostWithComments($postId)
@@ -63,13 +79,14 @@ class BackController
 
         $deletePost = $this->_post->deletePost($postId);
         $deleteComment = $this->_comment->deleteCommentsFromPost($postId);
-        header('Location:./index.php?url=dashboard');
+        header('Location:./index.php');
+
     }
 
     public function deleteComment($commentId)
     {
         $deleteComment = $this->_comment->deleteComment($commentId);
-        header('Location:./index.php?url=dashboard&action=posts');
+        header('Location:./index.php?url=dashboard&action=reportComments');
 
     }
 
@@ -80,6 +97,9 @@ class BackController
         $firstArticle = ($currentPage * $perPage) - $perPage;
         $posts = $this->_post->getPostsByState($firstArticle, $perPage,$state);
         $totalPage = ceil(intval($countPosts) / $perPage);
+        if ($totalPage == 0) {
+            $totalPage = 1;
+        }
         if ($currentPage > $totalPage) {
             header('Location:./index.php');
         } elseif ($state === 0) {
@@ -97,6 +117,9 @@ class BackController
         $firstComment = ($currentPage * $perPage) - $perPage;
         $comments = $this->_comment->getCommentsByState($firstComment, $perPage, $state);
         $totalPage = ceil(intval($countComments) / $perPage);
+        if ($totalPage == 0) {
+            $totalPage = 1;
+        }
         if ($currentPage > $totalPage) {
             header('Location:./index.php');
         } elseif ($state === 0) {
@@ -109,17 +132,22 @@ class BackController
    
     public function connectUser($pseudo, $password)
     {
-        $verifyPseudo = htmlspecialchars(strip_tags($pseudo));
-        $verifyPassword = htmlspecialchars(strip_tags($password));
-        // $verifyPassword = htmlspecialchars(strip_tags(password_hash($password, PASSWORD_DEFAULT)));
-
-        $user = $this->_user->checkUser($verifyPseudo, $verifyPassword);
-
-        if ($user === false) {
+        if (empty($pseudo) AND empty($password) OR empty($pseudo) OR empty($password)) {
+            $errorMessage = 'Tous les champs ne sont pas remplis';
             require './View/loginView.php';
-        } else {
-        header('Location:./index.php');
-        exit;
+        } elseif (!empty($pseudo) AND !empty($password)) {
+            $verifyPseudo = htmlspecialchars(strip_tags($pseudo));
+            $verifyPassword = htmlspecialchars(strip_tags($password));
+    
+            $user = $this->_user->checkUser($verifyPseudo, $verifyPassword);
+    
+            if ($user === false) {
+                $errorMessage = 'Le pseudo ou le mot de passe est invalide';
+                require './View/loginView.php';
+            } else {
+            header('Location:./index.php');
+            exit;
+            }
         }
     }
 
