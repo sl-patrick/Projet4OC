@@ -26,20 +26,11 @@ class BackController
 
     public function addPost($title, $contents, $author)
     {
-        var_dump($title);
-        var_dump($contents);
-        var_dump($author);
-
 
         $verifyTitle = htmlspecialchars(strip_tags($title));
         $verifyContents = htmlspecialchars(strip_tags($contents));
-        var_dump($verifyTitle);
-        var_dump($verifyContents);
-
-
-
+        
         $post = $this->_post->addPost($verifyTitle, $verifyContents, $author);
-        var_dump($post);
         header('Location:./index.php?url=dashboard&action=posts');
     }
 
@@ -132,7 +123,7 @@ class BackController
    
     public function connectUser($pseudo, $password)
     {
-        if (empty($pseudo) AND empty($password) OR empty($pseudo) OR empty($password)) {
+        if (empty($pseudo) OR empty($password)) {
             $errorMessage = 'Tous les champs ne sont pas remplis';
             require './View/loginView.php';
         } elseif (!empty($pseudo) AND !empty($password)) {
