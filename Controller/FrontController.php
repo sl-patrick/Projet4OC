@@ -28,6 +28,7 @@ class FrontController
 
     public function chapters($currentPage, $state)
     {
+       
         $countPosts = $this->_post->countPosts($state);
         $perPage = 5;
         $firstPost = ($currentPage * $perPage) - $perPage;
@@ -51,12 +52,20 @@ class FrontController
 
     public function postComment($postId, $contents, $author)
     {
-        $comments = $this->_comment->addCommentFromPost($postId, $contents, $author);
-        ob_start();
-        require './View/instantCommentView.php';
-        $page = ob_get_contents();
-        ob_get_clean();
-        echo json_encode($page);
+
+        if (empty($author) OR empty($contents)) {
+            $errorMessage = 'Tous les champs ne sont pas remplis';
+            echo json_encode($errorMessage);  
+            return false;
+        } else {
+
+            $comments = $this->_comment->addCommentFromPost($postId, $contents, $author);
+            ob_start();
+            require './View/instantCommentView.php';
+            $page = ob_get_contents();
+            ob_get_clean();
+            echo json_encode($page);   
+        }
     }
 
     public function reportComment($commentId) {
