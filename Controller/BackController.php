@@ -71,7 +71,7 @@ class BackController
 
         $deletePost = $this->_post->deletePost($postId);
         $deleteComment = $this->_comment->deleteCommentsFromPost($postId);
-        header('Location:./index.php');
+        header('Location:./index.php?url=dashboard&action=posts');
 
     }
 
