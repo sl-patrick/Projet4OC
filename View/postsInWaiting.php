@@ -8,7 +8,7 @@ require 'menu.php';
     <div class="container">
         <div class="row m-0">
             <div class="col">
-                <h4 class="text-center">Articles en attentes</h4>
+                <h2 class="text-center">Articles en attentes</h2>
                 <div class="col">
                     <?php
                     foreach ($posts as $postInWait) {
@@ -51,6 +51,3 @@ require 'menu.php';
 </div>
 
 <?php require 'footer.php'; ?>
-
-</body>
-</html>
