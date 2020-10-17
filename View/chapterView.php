@@ -26,7 +26,7 @@ require 'menu.php';
 
                     <div class="card-body">
                         <h2 class="card-title text-uppercase"><a class="card-link" href="index.php?url=post&amp;postId=<?= htmlspecialchars($post['id']); ?>"><?= htmlspecialchars($post['title']); ?></a></h2>
-                        <p class="card-text"><?= mb_strimwidth(htmlspecialchars($post['contents']), 0, 200, '...'); ?>
+                        <p class="card-text"><?= mb_strimwidth(html_entity_decode($post['contents']), 0, 200, '...'); ?>
                         <span>
                             <a href="index.php?url=post&amp;postId=<?= htmlspecialchars($post['id']); ?>">Lire la suite</a>
                         </span> 
