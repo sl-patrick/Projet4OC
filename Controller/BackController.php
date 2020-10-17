@@ -40,7 +40,8 @@ class BackController
         $verifyContents = htmlspecialchars($contents);
 
         $post = $this->_post->inWaiting($verifyTitle, $verifyContents, $author);
-        header('Location:./index.php?url=dashboard');
+        header('Location:./index.php?url=dashboard&action=inWaiting');
+
     }
 
     public function getPost($postId)
