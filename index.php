@@ -21,12 +21,14 @@ class Router
     {
         try {
             if (isset($_GET['url'])) {
+
                 if ($_GET['url'] === 'post') {
-                    if (isset($_GET['postId']) and !empty($_GET['postId'])) {
+                    if (isset($_GET['postId']) AND !empty($_GET['postId'])) {
                         $this->_frontController->articleWithComments($_GET['postId']);
                     } else {
                         header('Location:./index.php?url=chapter');
                     }
+
                 } elseif ($_GET['url'] === 'chapter') {
                     $state = 0;
                     if (isset($_GET['page']) AND !empty($_GET['page'])) {
@@ -37,39 +39,31 @@ class Router
                         $currentPage = 1;
                         $this->_frontController->chapters($currentPage, $state);
                     }
-                } elseif ($_GET['url'] === 'postComment') {
-                    if (isset($_GET['postId']) and !empty($_GET['postId'])) {
-                        if (!empty($_POST['author']) and !empty($_POST['contents'])) {
-                            $this->_frontController->postComment($_GET['postId'], $_POST['contents'], $_POST['author']);
-                        } else {
-                            echo 'tous les champs ne sont pas remplis';
-                        }
-                    } else {
-                        echo 'l\'article n\'est pas disponible';
-                    }
-                } elseif ($_GET['url'] === 'report') {
-                    if (isset($_GET['idComment']) and !empty($_GET['idComment'])) {
 
+                } elseif ($_GET['url'] === 'postComment') {
+                    if (isset($_GET['postId']) AND !empty($_GET['postId'])) {
+                        if (isset($_POST['author']) AND isset($_POST['contents'])) {
+                            $this->_frontController->postComment($_GET['postId'], $_POST['contents'], $_POST['author']);
+                        } 
+                    }
+
+                } elseif ($_GET['url'] === 'report') {
+                    if (isset($_GET['idComment']) AND !empty($_GET['idComment'])) {
                         $this->_frontController->reportComment($_GET['idComment']);
                     }
                 } elseif ($_GET['url'] === 'login') {
-                    if (isset($_GET['action']) and $_GET['action'] === 'connect' and isset($_POST['submit'])) {
-                        if (!empty($_POST['pseudo']) and !empty($_POST['password'])) {
-
+                    if (isset($_GET['action']) AND $_GET['action'] === 'connect' AND isset($_POST['submit'])) {
+                        if (isset($_POST['pseudo']) AND isset($_POST['password'])) {
                             $this->_backController->connectUser($_POST['pseudo'], $_POST['password']);
-                        } elseif (empty($_POST['pseudo'])) {
-                            echo 'pseudo manquant';
-                        } elseif (!empty($_POST['password'])) {
-                            echo 'mot de passe manquant';
                         }
                     } else {
                         $this->_frontController->login();
                     }
+                    
                 } elseif (isset($_SESSION['pseudo'])) {
 
-                    if ($_GET['url'] === 'dashboard') {
-
-                        if (isset($_GET['action'])) {
+                    if ($_GET['url'] === 'dashboard' AND isset($_GET['action']) AND !empty($_GET['action'])) {
+                        
                             if ($_GET['action'] === 'posts') {
                                 $state = 0;
                                     if (isset($_GET['page']) AND !empty($_GET['page'])) {
@@ -124,35 +118,42 @@ class Router
                                     $this->_backController->addPostView();
                                 }
                             } elseif ($_GET['action'] === 'updatePost') {
-                                if (isset($_POST['update']) and isset($_GET['postId']) and !empty($_GET['postId'])) {
+                                if (isset($_POST['update']) AND isset($_GET['postId']) AND !empty($_GET['postId'])) {
                                     $this->_backController->updatePost($_GET['postId'], $_POST['newTitle'], $_POST['newContents'], $_POST['authorOfPost']);
+
+                                } elseif (isset($_POST['putInLine']) AND isset($_GET['postId']) AND !empty($_GET['postId']) ) {
+                                    $this->_backController->putInLine($_GET['postId'], $_POST['newTitle'], $_POST['newContents'], $_POST['authorOfPost']);
+                                    
                                 }
-                                if (isset($_GET['postId']) and !empty($_GET['postId'])) {
+                                if (isset($_GET['postId']) AND !empty($_GET['postId'])) {
                                     $this->_backController->getPost($_GET['postId']);
                                 }
                             } elseif ($_GET['action'] === 'deletePost') {
-                                if (isset($_GET['postId']) and !empty($_GET['postId'])) {
+                                if (isset($_GET['postId']) AND !empty($_GET['postId'])) {
 
                                     $this->_backController->deletePostWithComments($_GET['postId']);
                                 }
                             } elseif ($_GET['action'] === 'deleteComment') {
-                                if (isset($_GET['commentId']) and !empty($_GET['commentId'])) {
+                                if (isset($_GET['commentId']) AND !empty($_GET['commentId'])) {
                                     $this->_backController->deleteComment($_GET['commentId']);
                                 }
                             } elseif ($_GET['action'] === 'logout') {
                                 $this->_backController->logout();
                             }
-                        } else {
+                    } else {
 
-                            echo 'erreur';
-                        }
+                        header('Location:./index.php');
+
                     }
+                } else {
+                    $this->_frontController->home();  
                 }
             } else {
                 $this->_frontController->home();
             }
         } catch (Exception $error) {
             echo $error->getMessage();
+
         }
     }
 }
