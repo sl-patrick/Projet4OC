@@ -26,9 +26,9 @@ class BackController
 
     public function addPost($title, $contents, $author)
     {
-
         $verifyTitle = htmlspecialchars(strip_tags($title));
-        $verifyContents = htmlspecialchars(strip_tags($contents));
+        $verifyContents = htmlspecialchars($contents);
+
         
         $post = $this->_post->addPost($verifyTitle, $verifyContents, $author);
         header('Location:./index.php?url=dashboard&action=posts');
@@ -37,7 +37,7 @@ class BackController
     public function postWaiting($title, $contents, $author)
     {
         $verifyTitle = htmlspecialchars(strip_tags($title));
-        $verifyContents = htmlspecialchars(strip_tags($contents));
+        $verifyContents = htmlspecialchars($contents);
 
         $post = $this->_post->inWaiting($verifyTitle, $verifyContents, $author);
         header('Location:./index.php?url=dashboard');
@@ -51,16 +51,16 @@ class BackController
 
     public function updatePost($id, $title, $contents, $author)
     {
+        
         $verifyTitle = htmlspecialchars(strip_tags($title));
-        $verifyContents = htmlspecialchars(strip_tags($contents));
-
+        $verifyContents = htmlspecialchars($contents);
         $updateArticle = $this->_post->updatePost($id, $verifyTitle, $verifyContents, $author);
         header('Location:./index.php?url=dashboard&action=inWaiting');
     }
 
     public function putInLine($id, $title, $contents, $author) {
         $verifyTitle = htmlspecialchars(strip_tags($title));
-        $verifyContents = htmlspecialchars(strip_tags($contents));
+        $verifyContents = htmlspecialchars($contents);
         $postPutInLine = $this->_post->putInLine($id, $verifyTitle, $verifyContents, $author);
         header('Location:./index.php');
     }
@@ -145,7 +145,6 @@ class BackController
     public function logout()
     {
         session_destroy();
-
         header('Location:./index.php');
     }
 }
