@@ -23,7 +23,7 @@ require 'menu.php';
                                 <a class="text-decoration-none text-dark" href="index.php?"><?= htmlspecialchars($post['title']); ?></a>
                             </h2>
                         </div>
-                        <div class="card-text"><?= htmlspecialchars($post['contents']); ?></div>
+                        <div class="card-text"><?= html_entity_decode($post['contents']); ?></div>
                     </div>
                     <div class="card-footer">
                         <a href="index.php?url=dashboard&amp;action=updatePost&amp;postId=<?= htmlspecialchars($post['id']); ?>" class="card-link">Modifier</a>

@@ -21,7 +21,7 @@ require 'menu.php';
                                         <a class="text-decoration-none text-dark" href="index.php?"><?= htmlspecialchars($postInWait['title']); ?></a>
                                     </h3>
                                 </div>
-                                <div class="card-text"><?= htmlspecialchars($postInWait['contents']); ?></div>
+                                <div class="card-text"><?= html_entity_decode($postInWait['contents']); ?></div>
                             </div>
                             <div class="card-footer">
                                 <a href="index.php?url=dashboard&amp;action=updatePost&amp;postId=<?= htmlspecialchars($postInWait['id']); ?>" class="card-link">Modifier</a>

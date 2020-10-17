@@ -21,7 +21,7 @@ foreach ($getArticle as $article) {
                     <div class="form-group row">
                         <label for="newContents" class="col-sm-2 col-form-label">Message</label>
                         <div class="col">
-                            <textarea name="newContents" id="newContents" class="form-control"><?= htmlspecialchars($article['contents']); ?></textarea>
+                            <textarea name="newContents" id="newContents" class="form-control"><?= html_entity_decode($article['contents']); ?></textarea>
                         </div>
                     </div>
                     <div class="form-group row">

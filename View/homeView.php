@@ -34,7 +34,7 @@ require 'menu.php';
                             <?= htmlspecialchars($post['title']); ?>
                             </a>
                         </h2>
-                        <p class="card-text"><?= mb_strimwidth(htmlspecialchars($post['contents']), 0, 200, '...'); ?>
+                        <p class="card-text"><?= mb_strimwidth(html_entity_decode($post['contents']), 0, 200, '...'); ?>
                         <span>
                             <a class="card-link" href="index.php?url=post&amp;postId=<?= htmlspecialchars($post['id']); ?>">Lire la suite</a>
                         </span> 
