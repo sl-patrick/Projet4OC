@@ -34,6 +34,11 @@ class FrontController
         $firstPost = ($currentPage * $perPage) - $perPage;
         $posts = $this->_post->getPostsByState($firstPost, $perPage, $state);
         $totalPage = ceil(intval($countPosts) / $perPage);
+        if ($totalPage == 0) {
+            $totalPage = 1;
+        } elseif ($currentPage > $totalPage) {
+            header('Location:./index.php');
+        }
         require './View/chapterView.php';
     }
 
