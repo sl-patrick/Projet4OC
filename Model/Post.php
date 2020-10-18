@@ -1,6 +1,6 @@
 <?php
 
-require 'model.php';
+require 'Model.php';
 
 class Post extends Database {
 
@@ -36,8 +36,8 @@ class Post extends Database {
     }
 
     public function getPost($postId) {
-        $pdoConnexion = $this->getConnection();
-        $query = $pdoConnexion->prepare('SELECT id,title,contents,creation_date,author FROM blog_posts WHERE id = :id');
+        $pdoConnection = $this->getConnection();
+        $query = $pdoConnection->prepare('SELECT id,title,contents,creation_date,author,post_waiting FROM blog_posts WHERE id = :id');
         $query->execute(array('id' => $postId));
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;

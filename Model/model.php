@@ -2,9 +2,9 @@
 
 class Database {
 
-    const host = 'mysql:host=localhost;dbname=db_jeanf;charset=utf8';
-    const login = 'root';
-    const password = '';
+    const HOST = 'mysql:host=localhost;dbname=db_jeanf;charset=UTF8';
+    const LOGIN = 'root';
+    const PASSWORD = '';
 
     private $_connectionDb;
 
@@ -19,7 +19,7 @@ class Database {
     //Méthode connexion à la base de données avec PDO.
     public function getConnection() {
         try {
-            $this->_connectionDb = new PDO(self::host,self::login,self::password);
+            $this->_connectionDb = new PDO(self::HOST,self::LOGIN,self::PASSWORD);
             $this->_connectionDb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $this->_connectionDb;
         } catch (Exception $errorConnectionDb) {

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'model.php';
+require_once 'Model.php';
 
 class Comment extends Database {
     
@@ -34,11 +34,11 @@ class Comment extends Database {
         if (intval($verify['report_comment']) === 0) {
             $result = $pdo->prepare('UPDATE comments SET report_comment = 1 WHERE id= ?');
             $result->execute([$commentId]);
-            return intval($verify['report_comment']);
+            return "commentaire signalé";
         } else {
             $result = $pdo->prepare('UPDATE comments SET report_comment = 0 WHERE id= ?');
             $result->execute([$commentId]);
-            return intval($verify['report_comment']);
+            return "commentaire non signalé";
         }
     }
     
