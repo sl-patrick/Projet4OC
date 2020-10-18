@@ -2,7 +2,7 @@
             <div class="container">
                 <div class="row text-center">
                     <div class="col">
-                        <p class="text-white">© 2020 Copyright: </p>
+                        <p class="text-white">© 2020 Patrick SAMÉ LHORI - Tous droits réservés - Projet d'étude</p>
                     </div>
                 </div>
             </div>
