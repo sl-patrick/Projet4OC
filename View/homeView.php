@@ -1,16 +1,12 @@
-<?php 
-
-$title = 'Mon blog';
-
-require 'header.php'; 
-require 'menu.php'; 
-
-
+<?php
+$title = 'Accueil';
+require 'header.php';
+require 'menu.php';
 ?>
 
 <section id="hero">
     <div class="jumbotron jumbotron-fluid background text-center">
-        <div class="container">
+        <div class="container-fluid background-opacity text-white">
             <h1>Jean Forteroche</h1>
             <p class="lead">Acteur - Écrivain</p>
             <hr class="my-3">
@@ -20,7 +16,6 @@ require 'menu.php';
 </section>
 
 <main class="min-vh-100">
-
     <div class="container">
         <div class="row d-flex justify-content-center">
             <?php
@@ -30,14 +25,12 @@ require 'menu.php';
                     <div class="card-header"></div>
                     <div class="card-body">
                         <h2 class="card-title text-uppercase">
-                            <a class="card-link" href="index.php?url=post&amp;postId=<?= htmlspecialchars($post['id']); ?>">
-                            <?= htmlspecialchars($post['title']); ?>
-                            </a>
+                            <a class="card-link text-dark" href="index.php?url=post&amp;postId=<?= htmlspecialchars($post['id']); ?>"><?= htmlspecialchars($post['title']); ?></a>
                         </h2>
                         <p class="card-text"><?= mb_strimwidth(html_entity_decode($post['contents']), 0, 200, '...'); ?>
-                        <span>
-                            <a class="card-link" href="index.php?url=post&amp;postId=<?= htmlspecialchars($post['id']); ?>">Lire la suite</a>
-                        </span> 
+                            <span>
+                                <a class="card-link" href="index.php?url=post&amp;postId=<?= htmlspecialchars($post['id']); ?>">Lire la suite</a>
+                            </span>
                         </p>
                     </div>
                     <div class="card-footer text-muted">

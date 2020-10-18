@@ -1,16 +1,17 @@
 <?php
-
 $title = 'Modifier l\'article'; 
 require 'header.php';
 require 'menu.php';
+?>
 
+<?php
 foreach ($getArticle as $article) {
-    ?>
+?>
 <main class="min-vh-100">
     <div class="container">
         <div class="row">
             <div class="col">
-                <h3>Mettre à jour</h3>
+                <h2 class="text-center">Mettre à jour</h2>
                 <form id="newPostForm" action="index.php?url=dashboard&amp;action=updatePost&amp;postId=<?= htmlspecialchars($article['id']); ?>" method="post">
                     <div class="form-group row">
                         <label for="newTitle" class="col-sm-2 col-form-label">Titre</label>
@@ -31,15 +32,16 @@ foreach ($getArticle as $article) {
                         </div>
                     </div>
                     <div class="form-group row">
-                        <input type="submit" value="Mettre à jour" name="update" class="btn btn-dark">
-                        <?php
-                        if (intval($getArticle[0]['post_waiting']) === 1) {
-                        ?>
-                            <input type="submit" value="Mettre en ligne" name="putInLine" class="btn btn-dark">
-                        <?php
-                        } 
-                        ?>
-                        
+                        <div class="col">
+                            <input type="submit" value="Mettre à jour" name="update" class="btn btn-dark">
+                            <?php
+                            if (intval($getArticle[0]['post_waiting']) === 1) {
+                            ?>
+                                <input type="submit" value="Mettre en ligne" name="putInLine" class="btn btn-dark">
+                            <?php
+                            } 
+                            ?>   
+                        </div>
                     </div>
                 </form>
             </div>    

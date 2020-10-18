@@ -12,6 +12,15 @@ require 'menu.php';
             <div class="col">
                 <h2 class="text-center">Ajouter un article</h2>
                 <form id="newPostForm" action="index.php?url=dashboard&amp;action=addPost" method="post">
+                    <?php
+                    if (isset($errorMessage)) {
+                    ?>
+                        <div class="form-group row">
+                            <small id="validationMessage" class="invalid-feedback d-block text-center"><?= htmlspecialchars($errorMessage); ?></small>
+                        </div>
+                    <?php
+                    }
+                    ?>
                     <div class="form-group row">
                         <label for="newTitle" class="col-sm-2 col-form-label-">Titre</label>
                         <div class="col">

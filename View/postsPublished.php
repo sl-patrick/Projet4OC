@@ -1,14 +1,12 @@
 <?php
-
 $title = 'Articles publiés';
 require 'header.php';
 require 'menu.php';
-
 ?>
 
 <main class="min-vh-100">
     <div class="container">
-        <div class="row m-0">
+        <div class="row">
             <div class="col">
                 <h2 class="text-center">Articles récents</h2>
             <div class="col">
@@ -38,15 +36,12 @@ require 'menu.php';
         </div>
     </div>
 </main>
-
 <div class="page-pagination d-flex justify-content-center">
     <nav>
         <ul class="pagination">
-            <!-- previous -->
             <li class="page-item mt-3 <?= ($currentPage === 1) ? 'disabled' : '' ?>">
                 <a class="page-link" href="index.php?url=dashboard&amp;action=posts&amp;page=<?= $currentPage - 1; ?>">Précédente</a>
             </li>
-            <!-- Next -->
             <li class="page-item mt-3 <?= ($currentPage >= $totalPage) ? 'disabled' : '' ?>">
                 <a class="page-link" href="index.php?url=dashboard&amp;action=posts&amp;page=<?= $currentPage + 1; ?>">Suivante</a>
             </li>
@@ -55,7 +50,3 @@ require 'menu.php';
 </div>
 
 <?php require 'footer.php'; ?>
-
-</body>
-
-</html>

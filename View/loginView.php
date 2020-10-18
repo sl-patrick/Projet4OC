@@ -1,5 +1,4 @@
 <?php
-
 $title = 'Connexion';
 require 'header.php';
 ?>
@@ -29,10 +28,9 @@ require 'header.php';
                 <input class="btn btn-dark" type="submit" name="submit" value="Connexion">
             </div>
             <div class="form-group row justify-content-center">
-                <a href="index.php">Retourner sur le site</a>
+                <a class="text-decoration-none text-dark" href="index.php">Retourner sur le site</a>
             </div>
         </form>
-
     </div>
 </main>
 
