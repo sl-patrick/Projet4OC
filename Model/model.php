@@ -18,12 +18,8 @@ class Database {
     
     //Méthode connexion à la base de données avec PDO.
     public function getConnection() {
-        try {
             $this->_connectionDb = new PDO(self::HOST,self::LOGIN,self::PASSWORD);
             $this->_connectionDb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $this->_connectionDb;
-        } catch (Exception $errorConnectionDb) {
-            echo $errorConnectionDb->getMessage();
-        }
     }
 }
