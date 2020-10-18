@@ -1,0 +1,9 @@
+.background{
+    background-image: url("../../Images/background.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.background-opacity{
+    background-color: rgba(0, 0, 0, 0.2);
+}
