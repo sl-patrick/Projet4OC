@@ -50,14 +50,15 @@ class FrontController
     }
 
     public function postComment($postId, $contents, $author) {
-
+        
         if (empty($author) OR empty($contents)) {
             $errorMessage = 'Tous les champs ne sont pas remplis';
             echo json_encode($errorMessage);  
             return false;
         } else {
-
-            $comments = $this->_comment->addCommentFromPost($postId, $contents, $author);
+            $verifyAuthor = htmlspecialchars(strip_tags($author));
+            $verifyContents = htmlspecialchars(strip_tags($contents));
+            $comments = $this->_comment->addCommentFromPost($postId, $verifyContents, $verifyAuthor);
             ob_start();
             require './View/instantCommentView.php';
             $page = ob_get_contents();
